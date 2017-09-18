@@ -1,10 +1,17 @@
 #include<IRremote.h>
+#include<SoftwareSerial.h>
+
+#define TxD 6
+#define RxD 7
 
 IRsend irsend;
+
+SoftwareSerial bluetoothSerial(TxD, RxD);
 
 char mybuffer[10];
 
 void setup() {
+  bluetoothSerial.begin(9600);
   Serial.begin(9600);
   Serial.setTimeout(10);
 }
@@ -17,8 +24,10 @@ void flushBuffer() {
 }
 
 void loop() {
+if(bluetoothSerial.available()){
   flushBuffer();
-  Serial.readBytes(mybuffer, 10);
+  bluetoothSerial.readBytes(mybuffer, 10);
+  Serial.println(mybuffer);
   if(strcmp(mybuffer, "right")==0) {
     irsend.sendRC6(0xC0005B, 24);
     delay(1000);
@@ -193,5 +202,77 @@ void loop() {
     irsend.sendRC6(0xC0005A, 24);
     delay(1000);
   }
-
+  if(strcmp(mybuffer, "pwd_fd")==0) {
+    irsend.sendNEC(0x1FE50AF, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "tre+")==0) {
+    irsend.sendNEC(0x1FE10EF, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "bass-")==0) {
+    irsend.sendNEC(0x1FE8877, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "tre-")==0) {
+    irsend.sendNEC(0x1FE906F, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "down_tv")==0) {
+    irsend.sendNEC(0xFEB04F, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "right_tv")==0) {
+    irsend.sendNEC(0xFE708F, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "vol_fd-")==0) {
+    irsend.sendNEC(0x1FEC03F, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "left_tv")==0) {
+    irsend.sendNEC(0xFEF00F, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "bass+")==0) {
+    irsend.sendNEC(0x1FEC837, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "mute_fd")==0) {
+    irsend.sendNEC(0x1FE30CF, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "s_tv")==0) {
+    irsend.sendNEC(0xFE48B7, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "vol_tv-")==0) {
+    irsend.sendNEC(0xFE58A7, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "up_tv")==0) {
+    irsend.sendNEC(0xFE30CF, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "vol_fd+")==0) {
+    irsend.sendNEC(0x1FE40BF, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "vol_tv+")==0) {
+    irsend.sendNEC(0xFED827, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "pwd_tv")==0) {
+    irsend.sendNEC(0xFEA857, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "b_fd")==0) {
+    irsend.sendNEC(0x1FEB847, 32);
+    delay(1000);
+  }
+  if(strcmp(mybuffer, "s_fd")==0) {
+    irsend.sendNEC(0x1FE38C7, 32);
+    delay(1000);
+  }
+ }
 }
