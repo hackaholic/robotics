@@ -10,10 +10,11 @@ def motion_detect():
     try:
         while True:
             if gpio.input(7)==1:
-                print "Motion Detected"
+                print("Motion Detected")
+                time.sleep(2)
     except KeyboardInterrupt:
         gpio.cleanup()
-        print "\n Terminated by User"
+        print("\n Terminated by User")
         sys.exit()
 
 
