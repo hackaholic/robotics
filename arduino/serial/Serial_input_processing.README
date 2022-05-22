@@ -1,0 +1,43 @@
+In Linux, Serial Port input can be configured in two ways:
+
+1. Canonical Mode
+2. Non-Canonical Mode
+
+Canonical Mode: In canonical mode, read on the serial port will not return until a new line, EOF or EOL character is received  by the Linux Kernel. In this more, read will always return an entire line, no matter how many bytes are requested.
+
+Non-Canonical Mode: In non-canonical mode, read on the serial port will not wait until the new line. Number of bytes read depends on the MIN and TIME settings.
+MIN: Minimum number of bytes that must be available in the input queue in order for read to return
+TIME: How long to wait for input before returning, in units of 0.1 seconds.
+
+
+MIN and TIME
+	
+
+Behavior
+
+MIN = 0, TIME = 0
+	
+
+Read returns immediately with as many characters available in the queue, up to the number requested. If no characters in the queue, read returns 0
+
+MIN = 0, TIME > 0
+	
+
+Read waits for TIME time for input to become available, if we receive a single character in the TIME duration, read returns immediately. It returns as many characters up to the number requested. If timer expires and there is no receive characters, read returns 0
+
+MIN > 0, TIME = 0
+	
+
+Read waits until at least MIN bytes are available in the input queue. At the time, read returns as many characters are available up to the number requested.
+
+MIN > 0, TIME > 0
+	
+
+Read returns until either MIN bytes have arrived in input queue, or TIME elapses with no further input. read always block until the first character  arrives, even if TIME elapses first.
+
+ 
+REF:  http://embeddedguruji.blogspot.com/2019/01/serial-port-programming-part-2.html
+
+
+
+stty -F <ttyDevice> # will output tty ttyDevice information
